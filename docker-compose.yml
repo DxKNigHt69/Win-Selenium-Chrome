@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  selenium-server:
+    image: win-selenium-chrome-base
+    ports:
+      - "4446:4446"
+    working_dir: C:\selenium
+    command: ["java", "-jar", "selenium-server-4.11.0.jar", "hub" ,"-p", "4446"]
+
+  chrome-node:
+    image: win-selenium-chrome-base
+    depends_on:
+      - selenium-server
+    ports:
+      - "5554:5554"
+    environment:
+      - NODE_HOST=win-selenium-chrome-base
+      - PORT=5556
+    working_dir: C:\selenium
+    command: ["java", "-jar", "selenium-server-4.11.0.jar", "node" ,"--detect-drivers","true","-p", "5554"]
